@@ -1,0 +1,62 @@
+# ==========================
+# Project Metadata
+# ==========================
+[project]
+name = "newsrep"  # Name of your project (should be unique if publishing to PyPI)
+version = "0.1.0"  # Current version of the project
+description = "newsrep using crewAI"  # Short description of the project
+authors = [{ name = "Sanjay", email = "sanjaymanyam1112@gmail.com" }]  # Author details
+requires-python = ">=3.10,<3.13"  # Ensures compatibility with Python versions 3.10 to 3.12
+
+# Example Usage:
+# If someone installs this package, they must have Python 3.10, 3.11, or 3.12 installed.
+
+# ==========================
+# Dependencies (Packages Needed)
+# ==========================
+dependencies = [
+    "crewai[tools]>=0.102.0,<1.0.0"  # Install CrewAI and its tools (latest version before 1.0.0)
+]
+
+# Example Usage:
+# After installing this package, it will automatically install CrewAI with extra tools.
+# You can manually install dependencies using:
+# pip install -r requirements.txt  (if converted to a requirements file)
+
+# ==========================
+# Command-Line Interface (CLI) Commands
+# ==========================
+[project.scripts]
+newsrep = "newsrep.main:run"  # Run the CrewAI system
+run_crew = "newsrep.main:run"  # Another alias to run the crew
+train = "newsrep.main:train"  # Train the crew for multiple iterations
+replay = "newsrep.main:replay"  # Replay a past crew task using task ID
+test = "newsrep.main:test"  # Run a test execution
+
+# Example Usage in Terminal:
+# After installing the package, you can use these commands directly in the terminal:
+# run_crew                -> Runs the CrewAI workflow
+# train 5 output.json     -> Trains the crew for 5 iterations and saves the result in output.json
+# replay 12345            -> Replays task ID 12345
+# test 3 gpt-4            -> Runs test with 3 iterations using OpenAI GPT-4 model
+
+# ==========================
+# Build System (Package Builder)
+# ==========================
+[build-system]
+requires = ["hatchling"]  # Hatchling is a lightweight Python package builder
+build-backend = "hatchling.build"  # Defines Hatchling as the tool used for packaging
+
+# Example Usage:
+# To build your package for distribution:
+# python -m build  
+# This will create `dist/` folder with the `.whl` and `.tar.gz` files needed for publishing.
+
+# ==========================
+# CrewAI Configuration
+# ==========================
+[tool.crewai]
+type = "crew"  # Marks this as a CrewAI-based system
+
+# Example Usage:
+# If you are using CrewAI's tools and framework, this tells tools that this is a CrewAI project.

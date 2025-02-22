@@ -1,0 +1,9 @@
+fastapi
+pydantic
+firebase_admin
+python-dotenv
+crewai
+crewai-tools
+datetime
+
+#pip install fastapi uvicorn firebase-admin python-dotenv pydantic crewai crewai-tools datetime

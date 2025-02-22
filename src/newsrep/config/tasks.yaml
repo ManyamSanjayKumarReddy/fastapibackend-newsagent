@@ -1,0 +1,27 @@
+# ==========================
+# Task Definitions
+# ==========================
+
+web_research_task:
+  description: >
+    Use an advanced search tool to gather the latest news articles on {topic}.
+    Ensure that the sources are credible and relevant.
+  expected_output: >
+    A list of 3-5 relevant news articles, including title, URL, and a short summary.
+  agent: web_searcher
+
+news_optimization_task:
+  description: >
+    Analyze and refine the raw news data collected by the web searcher.
+    Remove irrelevant details, summarize key points, and ensure readability.
+  expected_output: >
+    A structured summary of the news with key insights, sentiment analysis, and readability improvements.
+  agent: news_optimizer
+
+news_writing_task:
+  description: >
+    Convert the optimized news summary into a well-structured, engaging news article.
+    Ensure the content follows journalistic writing standards and is easy to read.
+  expected_output: >
+    A fully written news article, formatted professionally in Markdown or HTML.
+  agent: news_writer
