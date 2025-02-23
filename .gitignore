@@ -1,7 +1,4 @@
 .env
 __pycache__/
 .DS_Store
-firebase_key.json
 .vercel
-firebase_key.json
-firebase_key.json
