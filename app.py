@@ -1,14 +1,17 @@
-from fastapi import FastAPI, BackgroundTasks
-from pydantic import BaseModel
-from src.newsrep.crew import Newsrep
+import os
+import json
+import base64
+import sys
+import re
+from dotenv import load_dotenv
 import firebase_admin
 from firebase_admin import credentials, firestore
-import os
-import sys
-from dotenv import load_dotenv
+from fastapi import FastAPI, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
-import re
-# Load environment variables from .env
+from pydantic import BaseModel
+from src.newsrep.crew import Newsrep
+
+# Load environment variables
 load_dotenv()
 
 # Ensure Python can find the newsrep module
@@ -27,22 +30,23 @@ app.add_middleware(
 )
 
 # Firebase Initialization
-FIREBASE_CREDENTIALS_PATH = os.getenv("FIREBASE_CREDENTIALS_PATH", "backend/firebase_key.json")
+firebase_key_base64 = os.getenv("FIREBASE_KEY_BASE64")
 
-
-try:
-    cred = credentials.Certificate(FIREBASE_CREDENTIALS_PATH)
-    firebase_admin.initialize_app(cred)
-    db = firestore.client()
-    print("Connected to Firestore successfully")
-except Exception as e:
-    print(f"Error connecting to Firestore: {e}")
+if firebase_key_base64:
+    try:
+        firebase_key_json = json.loads(base64.b64decode(firebase_key_base64).decode("utf-8"))
+        cred = credentials.Certificate(firebase_key_json)
+        firebase_admin.initialize_app(cred)
+        db = firestore.client()
+        print("Connected to Firestore successfully")
+    except Exception as e:
+        print(f"Error initializing Firestore: {e}")
+else:
+    print("FIREBASE_KEY_BASE64 not found in environment variables")
 
 # Pydantic model for user input
 class NewsRequest(BaseModel):
     topic: str
-
-import re
 
 def generate_slug(title):
     """Convert title into a URL-friendly slug"""
@@ -81,7 +85,6 @@ def save_to_firestore(topic, result):
 
     except Exception as e:
         print(f"Error saving to Firestore: {e}")
-
 
 @app.post("/generate_news/")
 async def generate_news(request: NewsRequest, background_tasks: BackgroundTasks):
